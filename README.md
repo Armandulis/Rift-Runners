@@ -6,7 +6,7 @@ A local multiplayer rogue-like. Choose a class, team up with friends on the same
 
 Host or join a game over your local network and play together.
 
-![Multiplayer](Assets/.functioning.damage-meter.png)
+![Multiplayer](Assets/functioning.damage-meter.png)
 
 ## ✨ Features
 
