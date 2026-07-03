@@ -21,8 +21,6 @@ Each class comes with its own set of spells, buffs, and debuffs to manage during
 ### 💥 Damage Meter
 A working damage meter tracks damage dealt during fights.
 
-![Animations](Assets/cast-bars.png)
-
 ## 🧙 Current Classes
 
 ### Quantum Mage
