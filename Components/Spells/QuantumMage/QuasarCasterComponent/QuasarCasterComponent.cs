@@ -1,73 +1,57 @@
 using Godot;
 using System;
 
-public partial class QuasarCasterComponent : Node2D
+public partial class QuasarCasterComponent : BaseSpell
 {
-	
-	[Export]
-	public CastBarComponent castBarComponent;
-	
-	private bool isCasting = false;
-	private bool interruptedCast = false;
-	private QuantumMage quantumMage;
-	private GravitonBuffComponent gravitonBuffComponent;
-	private SpellCastManagerComponent spellCastManagerComponent;
-	
+    public float castTime = 1.5f;
+    public override bool canCastWhileMoving { get; set; } = true;
 
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
-	{
-		quantumMage = (QuantumMage)GetParent<QuantumMage>();
-		gravitonBuffComponent = quantumMage.gravitonBuffComponent;
-		spellCastManagerComponent = quantumMage.spellCastManagerComponent;
+    public override bool isOnGlobalCooldown { get; set; } = true;
 
-		castBarComponent.CastFinished += () => {
-			castFinished();
-		};
-	}
+    private QuantumMage quantumMage;
+    private GravitonBuffComponent gravitonBuffComponent;
+    private SpellCastManagerComponent spellCastManagerComponent;
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
-		if( !spellCastManagerComponent.player.isMultiplayerAuthority() )
-		{
-			return;
-		}
+    // Called when the node enters the scene tree for the first time.
+    public override void _Ready()
+    {
+        quantumMage = (QuantumMage)GetParent<QuantumMage>();
+        gravitonBuffComponent = quantumMage.gravitonBuffComponent;
+    }
 
-		if( Input.IsKeyPressed( Key.Key2 ) && !isCasting && spellCastManagerComponent.tryCastSpell() )
-		{
-				startCast();	
-		}
-	}
+    public override void _Process(double delta)
+    {
+    }
 
-	[Rpc(MultiplayerApi.RpcMode.AnyPeer,CallLocal = true)]
-	public void startCast()
-	{
-			isCasting = true;
-			castBarComponent.startCast( 1 );
-	}
+    [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
+    private void CastQuasar(Vector2 aim)
+    {
+        var scene = GD.Load<PackedScene>("res:///Components/BoltCasterComponent/Bolt.tscn");
+        Bolt instance = (Bolt)scene.Instantiate();
+
+        instance.Position = GetParent<Node2D>().GlobalPosition;
+        instance.aim = GlobalPosition.DirectionTo(aim);
+        instance.LookAt(aim);
+        instance.damage = 75;
+
+        GetParent<Node2D>().AddChild(instance);
+        instance.TopLevel = true;
+    }
 
 
-	public void castFinished()
-	{
-		isCasting = false;
-		gravitonBuffComponent.addStacks( 1 );
-		Rpc(method: "CastQuasar", GetGlobalMousePosition());
-		spellCastManagerComponent.finishedCastingSpell();
-	}
+    public override bool CanCast()
+    {
+        return true;
+    }
 
-	[Rpc(MultiplayerApi.RpcMode.AnyPeer,CallLocal = true)]
-	private void CastQuasar(Vector2 aim)
-	{
-			var scene = GD.Load<PackedScene>("res:///Components/BoltCasterComponent/Bolt.tscn");
-			Bolt instance = (Bolt)scene.Instantiate();
-			
-			instance.Position = GetParent<Node2D>().GlobalPosition;
-			instance.aim = GlobalPosition.DirectionTo( aim);
-			instance.LookAt(aim);
-			instance.damage = 75;
-		
-			GetParent<Node2D>().AddChild(instance);
-			instance.TopLevel = true;
-	}
+    public override void CastSpell()
+    {
+        gravitonBuffComponent.addStacks(1);
+        Rpc(method: "CastQuasar", GetGlobalMousePosition());
+    }
+
+    public override float GetCastTime()
+    {
+        return castTime;
+    }
 }

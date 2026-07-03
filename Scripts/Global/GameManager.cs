@@ -10,10 +10,10 @@ public partial class GameManager : Node
 
     public override void _Ready()
     {
-      	if( instance == null )
-		{
-			instance = this; 
-		}
+        if (instance == null)
+        {
+            instance = this;
+        }
         else
         {
             QueueFree();

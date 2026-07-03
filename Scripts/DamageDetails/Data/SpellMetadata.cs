@@ -5,12 +5,14 @@ using System.Text.Json;
 using System.Collections.Generic;
 
 public partial class SpellMetadata : GodotObject
-{ 
+{
+
     public string id = "default";
     public string spellId = "default";
     public string casterId = "default";
-    
+
     // Can be dmage or heal
+
     public float value = 0;
     // Actual damage or heal after modifiers
     public float actualValue = 0;
@@ -22,23 +24,23 @@ public partial class SpellMetadata : GodotObject
 
     public SpellMetadata()
     {
-        if(id != "default")
+        if (id != "default")
         {
-        Guid myuuid = Guid.NewGuid();
-        id = myuuid.ToString();
+            Guid myuuid = Guid.NewGuid();
+            id = myuuid.ToString();
         }
     }
 
-    public static SpellMetadata ConvertFromRawString( string rawData) 
+    public static SpellMetadata ConvertFromRawString(string rawData)
     {
-        JsonElement  data = JsonSerializer.Deserialize<JsonElement>( rawData);
+        JsonElement data = JsonSerializer.Deserialize<JsonElement>(rawData);
         SpellMetadata spellMetadata = new SpellMetadata
         {
             id = data.GetProperty("id").GetString(),
             spellId = data.GetProperty("spellId").GetString(),
             casterId = data.GetProperty("casterId").GetString(),
             value = data.GetProperty("value").GetSingle(),
-            actualValue =data.GetProperty("actualValue").GetSingle(),
+            actualValue = data.GetProperty("actualValue").GetSingle(),
             isCrit = data.GetProperty("isCrit").GetBoolean(),
             dotDuration = data.GetProperty("dotDuration").GetSingle(),
             dotInterval = data.GetProperty("dotInterval").GetSingle(),
@@ -46,8 +48,9 @@ public partial class SpellMetadata : GodotObject
         };
         return spellMetadata;
     }
-    
-    public static string ConvertToRawString( SpellMetadata spellMetadata)
+
+
+    public static string ConvertToRawString(SpellMetadata spellMetadata)
     {
         Dictionary<string, dynamic> data = new Dictionary<string, dynamic>
         {
@@ -62,7 +65,8 @@ public partial class SpellMetadata : GodotObject
             { "dotInterval", spellMetadata.dotInterval },
             { "isAOEDot", spellMetadata.isAOEDot },
         };
-        
+
+
 
         return JsonSerializer.Serialize(data);
     }

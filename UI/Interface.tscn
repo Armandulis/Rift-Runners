@@ -1,8 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://drxraj5lp64mo"]
+[gd_scene load_steps=3 format=3 uid="uid://drxraj5lp64mo"]
 
 [ext_resource type="PackedScene" uid="uid://dosiislku3j4r" path="res://UI/DamageDetails/DamageDetails.tscn" id="1_fwfcn"]
 [ext_resource type="Script" path="res://UI/SpellBar/SpellBar.cs" id="2_0s1lv"]
-[ext_resource type="PackedScene" uid="uid://dejd5di76jeai" path="res://UI/SpellButton/SpellButton.tscn" id="3_b4vi1"]
 
 [node name="Interface" type="Control"]
 layout_mode = 3
@@ -24,16 +23,8 @@ anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -52.0
 offset_top = -40.0
-offset_right = 52.0
+offset_right = -20.0
+offset_bottom = -8.0
 grow_horizontal = 2
 grow_vertical = 0
 script = ExtResource("2_0s1lv")
-
-[node name="SpellButton" parent="SpellBar" instance=ExtResource("3_b4vi1")]
-layout_mode = 2
-
-[node name="SpellButton2" parent="SpellBar" instance=ExtResource("3_b4vi1")]
-layout_mode = 2
-
-[node name="SpellButton3" parent="SpellBar" instance=ExtResource("3_b4vi1")]
-layout_mode = 2

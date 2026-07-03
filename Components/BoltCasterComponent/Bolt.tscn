@@ -1,7 +1,8 @@
-[gd_scene load_steps=19 format=3 uid="uid://bq8rveide5jdl"]
+[gd_scene load_steps=21 format=3 uid="uid://bq8rveide5jdl"]
 
 [ext_resource type="Script" path="res://Components/BoltCasterComponent/Bolt.cs" id="1_s537b"]
 [ext_resource type="Texture2D" uid="uid://bo0bb33w65sfc" path="res://Assets/Sprites/Spells/Fire_Ball/006.png" id="2_a2pan"]
+[ext_resource type="Shader" path="res://Components/Spells/QuantumMage/SingularityCasterComponent/Singularity.gdshader" id="2_vodhr"]
 [ext_resource type="Texture2D" uid="uid://cwj0aev80qo7q" path="res://Assets/Sprites/Spells/Fire_Ball/007.png" id="3_q418f"]
 [ext_resource type="Texture2D" uid="uid://0urxo2t875k" path="res://Assets/Sprites/Spells/Fire_Ball/008.png" id="4_8e6nw"]
 [ext_resource type="Texture2D" uid="uid://b5i51dpjmnwhu" path="res://Assets/Sprites/Spells/Fire_Ball/009.png" id="5_hlb7a"]
@@ -12,6 +13,10 @@
 [ext_resource type="Texture2D" uid="uid://d2igyaukd0r2a" path="res://Assets/Sprites/Spells/Fire_Ball/003.png" id="9_xomqb"]
 [ext_resource type="Texture2D" uid="uid://bluocywvpt4qm" path="res://Assets/Sprites/Spells/Fire_Ball/004.png" id="10_ph00r"]
 [ext_resource type="Texture2D" uid="uid://127rdascfovg" path="res://Assets/Sprites/Spells/Fire_Ball/005.png" id="11_g7fhv"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vvp5r"]
+render_priority = 0
+shader = ExtResource("2_vodhr")
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_jvrwm"]
 animations = [{
@@ -163,6 +168,7 @@ script = ExtResource("1_s537b")
 animationPlayer = NodePath("AnimationPlayer")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_vvp5r")
 sprite_frames = SubResource("SpriteFrames_jvrwm")
 animation = &"collide"
 autoplay = "flying"

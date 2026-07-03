@@ -3,114 +3,116 @@ using System;
 
 public partial class HealthComponent : Node2D
 {
-	[Export]
-	public AnimatedSprite2D animatedSprite2D;
+    [Export]
+    public AnimatedSprite2D animatedSprite2D;
 
-	private DamageFloatComponent damageFloatComponent;
+    private DamageFloatComponent damageFloatComponent;
 
-	[Signal]
-	public delegate void DamagedEventHandler( SpellMetadata spellMetadata );
+    [Signal]
+    public delegate void DamagedEventHandler(SpellMetadata spellMetadata);
 
     [Export]
-	public float maxHealth;
-	public float currentHealth;
-	
-	[Export]
-	private HealthBar healthBar;
+    public float maxHealth;
+    public float currentHealth;
+
+    [Export]
+    private HealthBar healthBar;
 
     public override void _Ready()
     {
-		damageFloatComponent = new DamageFloatComponent();
-		AddChild(damageFloatComponent);
-		currentHealth = maxHealth;
-		if(healthBar != null )
-		{
-			healthBar.initHealth(maxHealth);
-		}
+        damageFloatComponent = new DamageFloatComponent();
+        AddChild(damageFloatComponent);
+        currentHealth = maxHealth;
+        if (healthBar != null)
+        {
+            healthBar.initHealth(maxHealth);
+        }
     }
 
-	public float MaxHealth 
-	{
-		get => maxHealth;
-		set 
-		{
-			maxHealth = value;
-		}
-	}
+    public float MaxHealth
+    {
+        get => maxHealth;
+        set
+        {
+            maxHealth = value;
+        }
+    }
 
-	public float CurrentHealth
-	{
-		get => currentHealth;
-		set {
-			currentHealth = value;
-			if(currentHealth < 0 )
-			{
-				currentHealth = 0;
-				GetParent().QueueFree();
-			}
+    public float CurrentHealth
+    {
+        get => currentHealth;
+        set
+        {
+            currentHealth = value;
+            if (currentHealth < 0)
+            {
+                currentHealth = 0;
+                GetParent().QueueFree();
+            }
 
-			if(currentHealth > MaxHealth )
-			{
-				currentHealth = MaxHealth;
-			}
-		}
-	}
+            if (currentHealth > MaxHealth)
+            {
+                currentHealth = MaxHealth;
+            }
+        }
+    }
 
-	public bool IsDamaged => CurrentHealth < MaxHealth;
-	public double hpPercentage => CurrentHealth / MaxHealth * 100f;
+    public bool IsDamaged => CurrentHealth < MaxHealth;
+    public double hpPercentage => CurrentHealth / MaxHealth * 100f;
 
 
-	/// <summary>
-	/// Subtracts amount from current health 
-	/// </summary>
-	public void Damage( SpellMetadata spellMetadata )
-	{	
-		if( spellMetadata.isDot && animatedSprite2D.SpriteFrames.HasAnimation( "damaged_dot" ) )
-		{
-			animatedSprite2D.Play("damaged_dot");
-		}
-		else if( spellMetadata.isCrit && animatedSprite2D.SpriteFrames.HasAnimation( "damaged_crit" ) )
-		{
-			animatedSprite2D.Play("damaged_crit");
-		}
-		else if( animatedSprite2D.SpriteFrames.HasAnimation( "damaged" ) )
-		{
-			animatedSprite2D.Play("damaged");
-		}
-		
-		damageFloatComponent.HandleDamageFloat(spellMetadata.value);
-		spellMetadata.actualValue = spellMetadata.value;
-		DamageMeter.instance.AddDamageSpell(spellMetadata);
-		CurrentHealth -= spellMetadata.value;
+    /// <summary>
+    /// Subtracts amount from current health 
+    /// </summary>
+    public void Damage(SpellMetadata spellMetadata)
+    {
+        if (spellMetadata.isDot && animatedSprite2D.SpriteFrames.HasAnimation("damaged_dot"))
+        {
+            animatedSprite2D.Play("damaged_dot");
+        }
+        else if (spellMetadata.isCrit && animatedSprite2D.SpriteFrames.HasAnimation("damaged_crit"))
+        {
+            animatedSprite2D.Play("damaged_crit");
+        }
+        else if (animatedSprite2D.SpriteFrames.HasAnimation("damaged"))
+        {
+            animatedSprite2D.Play("damaged");
+        }
 
-		if(healthBar != null)
-		{	
-			healthBar.Health = CurrentHealth;
-		}
-	}	
+        damageFloatComponent.HandleDamageFloat(spellMetadata.value);
+        spellMetadata.actualValue = spellMetadata.value;
+        DamageMeter.instance.AddDamageSpell(spellMetadata);
+        CurrentHealth -= spellMetadata.value;
 
-	
+        if (healthBar != null)
+        {
+            healthBar.Health = CurrentHealth;
+        }
+    }
 
-	/// <summary>
-	/// Adds amount to current health 
-	/// </summary>
-	public void Heal( SpellMetadata spellMetadata )
-	{
-		CurrentHealth += spellMetadata.value;
-	}
 
-	public void HandleSpell( SpellMetadata spellMetadata)
-	{
-		// If it is Dot, deal damage over time
-		if( spellMetadata.isDot ) {
-			
-			Damage(spellMetadata);
-		}
-		else
-		{
 
-			Damage(spellMetadata);
-		}
-	}
+    /// <summary>
+    /// Adds amount to current health 
+    /// </summary>
+    public void Heal(SpellMetadata spellMetadata)
+    {
+        CurrentHealth += spellMetadata.value;
+    }
+
+    public void HandleSpell(SpellMetadata spellMetadata)
+    {
+        // If it is Dot, deal damage over time
+        if (spellMetadata.isDot)
+        {
+
+            Damage(spellMetadata);
+        }
+        else
+        {
+
+            Damage(spellMetadata);
+        }
+    }
 
 }

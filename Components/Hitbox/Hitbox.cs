@@ -3,5 +3,5 @@ using System;
 
 public partial class Hitbox : Area2D
 {
-	public SpellMetadata spellMetadata;
+    public SpellMetadata spellMetadata;
 }

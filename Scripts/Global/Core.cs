@@ -9,34 +9,34 @@ public partial class Core : Node
 
     public override void _Ready()
     {
-		if( instance == null )
-		{
-			instance = this; 
-		}
+        if (instance == null)
+        {
+            instance = this;
+        }
     }
 
 
-	public Player GetNearestPlayer(Node2D nearestToBody)
-	{
-		Godot.Collections.Array<Node> players = GetTree().GetNodesInGroup("Players");
-		
-		if( players.Count == 0 )
-		{
-			return null;
-		}
-		Player nearestPlayer = (Player)players.First();
-		foreach( Player player in players )
-		{
-			float distance = player.GlobalPosition.DistanceTo(nearestToBody.GlobalPosition );
-			float nearestDistance = nearestPlayer.GlobalPosition.DistanceTo(nearestToBody.GlobalPosition);
-			nearestPlayer = nearestDistance < distance ? nearestPlayer : player;
-		}
+    public Player GetNearestPlayer(Node2D nearestToBody)
+    {
+        Godot.Collections.Array<Node> players = GetTree().GetNodesInGroup("Players");
 
-		return nearestPlayer;
-	}
+        if (players.Count == 0)
+        {
+            return null;
+        }
+        Player nearestPlayer = (Player)players.First();
+        foreach (Player player in players)
+        {
+            float distance = player.GlobalPosition.DistanceTo(nearestToBody.GlobalPosition);
+            float nearestDistance = nearestPlayer.GlobalPosition.DistanceTo(nearestToBody.GlobalPosition);
+            nearestPlayer = nearestDistance < distance ? nearestPlayer : player;
+        }
 
-	public int GetTotalPlayers()
-	{
-		return GetTree().GetNodesInGroup("Players").Count;
-	}
+        return nearestPlayer;
+    }
+
+    public int GetTotalPlayers()
+    {
+        return GetTree().GetNodesInGroup("Players").Count;
+    }
 }

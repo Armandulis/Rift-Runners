@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://x3m8gcglbrwo"]
+
+[ext_resource type="Script" path="res://Components/Spells/QuantumMage/TychonCasterComponent/TychonCasterComponent.cs" id="1_eqerr"]
+
+[node name="TychonCasterComponent" type="Node2D" node_paths=PackedStringArray("successionTimer", "cooldownTimer")]
+script = ExtResource("1_eqerr")
+successionTimer = NodePath("SuccessionTimer")
+cooldownTimer = NodePath("CooldownTimer")
+
+[node name="CooldownTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="SuccessionTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="CooldownTimer" to="." method="_OnCooldownTimerTimeout"]
+[connection signal="timeout" from="SuccessionTimer" to="." method="_OnSuccessionTimerTimeout"]

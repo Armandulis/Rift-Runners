@@ -1,0 +1,180 @@
+[gd_scene load_steps=25 format=3 uid="uid://7tfipblq8swp"]
+
+[ext_resource type="Script" path="res://Components/Spells/QuantumMage/QuantumFluxCasterComponent/QuantumFlux.cs" id="1_asew5"]
+[ext_resource type="Texture2D" uid="uid://cy30oaqclyjmf" path="res://Assets/Sprites/Spells/QuantumMage/QuantumFlux.png" id="1_g6klm"]
+[ext_resource type="PackedScene" uid="uid://dn322naumwovf" path="res://Components/ImpactDetector/ImpactDetector.tscn" id="2_n8ufb"]
+[ext_resource type="PackedScene" uid="uid://beuryv8j26jih" path="res://Components/Hitbox/Hitbox.tscn" id="3_ry8ql"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g4ng2"]
+atlas = ExtResource("1_g6klm")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7yy08"]
+atlas = ExtResource("1_g6klm")
+region = Rect2(64, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8lnqd"]
+atlas = ExtResource("1_g6klm")
+region = Rect2(128, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_throv"]
+atlas = ExtResource("1_g6klm")
+region = Rect2(192, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nbrrq"]
+atlas = ExtResource("1_g6klm")
+region = Rect2(256, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_th0ak"]
+atlas = ExtResource("1_g6klm")
+region = Rect2(320, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pw31p"]
+atlas = ExtResource("1_g6klm")
+region = Rect2(384, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_op85o"]
+atlas = ExtResource("1_g6klm")
+region = Rect2(448, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5ly3s"]
+atlas = ExtResource("1_g6klm")
+region = Rect2(512, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5wleq"]
+atlas = ExtResource("1_g6klm")
+region = Rect2(576, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_85o8r"]
+atlas = ExtResource("1_g6klm")
+region = Rect2(640, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kf7ye"]
+atlas = ExtResource("1_g6klm")
+region = Rect2(704, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7wt51"]
+atlas = ExtResource("1_g6klm")
+region = Rect2(768, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gumea"]
+atlas = ExtResource("1_g6klm")
+region = Rect2(832, 64, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_u800g"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g4ng2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7yy08")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8lnqd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_throv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nbrrq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_th0ak")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pw31p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_op85o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5ly3s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5wleq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_85o8r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kf7ye")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7wt51")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gumea")
+}],
+"loop": true,
+"name": &"Cast",
+"speed": 25.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gj0dj"]
+radius = 16.0
+height = 55.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4fjbv"]
+radius = 16.0
+height = 55.0
+
+[sub_resource type="Animation" id="Animation_kmxd2"]
+resource_name = "Cast"
+length = 0.55
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.533333),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_5g3fd"]
+length = 0.001
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qknbf"]
+_data = {
+"Cast": SubResource("Animation_kmxd2"),
+"RESET": SubResource("Animation_5g3fd")
+}
+
+[node name="QuantumFlux" type="Node2D"]
+script = ExtResource("1_asew5")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_u800g")
+animation = &"Cast"
+autoplay = "Cast"
+frame_progress = 0.273875
+
+[node name="ImpactDetector" parent="." instance=ExtResource("2_n8ufb")]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" parent="ImpactDetector" index="0"]
+rotation = 0.872665
+shape = SubResource("CapsuleShape2D_gj0dj")
+
+[node name="Hitbox" parent="." instance=ExtResource("3_ry8ql")]
+collision_layer = 8
+
+[node name="CollisionShape2D" parent="Hitbox" index="0"]
+rotation = 0.872665
+shape = SubResource("CapsuleShape2D_4fjbv")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_qknbf")
+}
+autoplay = "Cast"
+
+[editable path="ImpactDetector"]
+[editable path="Hitbox"]

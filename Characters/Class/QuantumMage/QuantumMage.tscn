@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://5j4w0j1entl1"]
+
+[ext_resource type="Script" path="res://Characters/Class/QuantumMage/QuantumMage.cs" id="1_0n8c7"]
+[ext_resource type="PackedScene" uid="uid://cyjotpufnihke" path="res://Components/Spells/QuantumMage/GravitonBuffComponent/GravitonBuffComponent.tscn" id="3_gpnfu"]
+
+[node name="QuantumMage" type="Node2D" node_paths=PackedStringArray("gravitonBuffComponent")]
+script = ExtResource("1_0n8c7")
+gravitonBuffComponent = NodePath("GravitonBuffComponent")
+
+[node name="GravitonBuffComponent" parent="." instance=ExtResource("3_gpnfu")]

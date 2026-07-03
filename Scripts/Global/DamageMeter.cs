@@ -12,11 +12,11 @@ public partial class DamageMeter : Node
 
     public override void _Ready()
     {
-      	if( instance == null )
-		{
-			instance = this;
- 
-		}
+        if (instance == null)
+        {
+            instance = this;
+
+        }
         else
         {
             QueueFree();
@@ -24,26 +24,26 @@ public partial class DamageMeter : Node
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
+    public override void _Process(double delta)
+    {
     }
 
     public CombatData GetCombatData()
-{
-    return combatData;
-}
-
-    public void AddDamageSpell( SpellMetadata spellMetadata )
     {
-        if( !IsMultiplayerAuthority() )
+        return combatData;
+    }
+
+    public void AddDamageSpell(SpellMetadata spellMetadata)
+    {
+        if (!IsMultiplayerAuthority())
         {
             return;
         }
-        Rpc(nameof(HandleCasterSpell),SpellMetadata.ConvertToRawString(spellMetadata));
+        Rpc(nameof(HandleCasterSpell), SpellMetadata.ConvertToRawString(spellMetadata));
     }
 
 
-    [Rpc(MultiplayerApi.RpcMode.Authority,CallLocal = true)]
+    [Rpc(MultiplayerApi.RpcMode.Authority, CallLocal = true)]
     void HandleCasterSpell(
         string spellMetadataRaw
     )

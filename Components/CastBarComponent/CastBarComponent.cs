@@ -2,62 +2,69 @@ using Godot;
 
 public partial class CastBarComponent : Node2D
 {
-	[Export]
-	public ProgressBar progressBar;
-	
-	[Export]
-	public Sprite2D interuptIcon;
+    [Export]
+    public ProgressBar progressBar;
 
-	public Timer castTimer;
+    [Export]
+    public Sprite2D interuptIcon;
 
-	private int interuptsNeeded;
+    public Timer castTimer;
 
-	private bool isCasting = false;
+    private int interuptsNeeded;
 
-	[Signal]
-	public delegate void CastFinishedEventHandler();
+    private bool isCasting = false;
 
-	private double castDuration = 0;
+    [Signal]
+    public delegate void CastFinishedEventHandler();
 
-	public override void _Ready()
-	{
-		this.Hide();
-		castTimer = (Timer)FindChild("CastTime");
-	}
+    private double castDuration = 0;
 
-	public override void _Process(double delta)
-	{
-		if( isCasting == true )
-		{
-			progressBar.Value = (castDuration - castTimer.TimeLeft) / castDuration * 100;
-		}
-		else
-		{
-			progressBar.Value = 0;
-		}
-	}
-	
-	public void startCast( double time )
-	{
-		this.Show();
-		isCasting = true;
-		castTimer.Start( time );
-		castDuration = time;
-	}
+    public override void _Ready()
+    {
+        this.Hide();
+        castTimer = (Timer)FindChild("CastTime");
+    }
 
-	public void castInerupted()
-	{
-		this.Hide();
-		isCasting = false;
-		castTimer.Stop();
-		progressBar.Value = 0;
-	}
+    public override void _Process(double delta)
+    {
+        if (isCasting == true)
+        {
+            progressBar.Value = (castDuration - castTimer.TimeLeft) / castDuration * 100;
+        }
+        else
+        {
+            progressBar.Value = 0;
+        }
+    }
 
-	public void _OnCastTimeTimeout()
-	{
-		this.Hide();
-		EmitSignal(SignalName.CastFinished);
-		progressBar.Value = 100;
-		castTimer.Stop();
-	}
+    public void startCast(double time)
+    {
+        this.Show();
+        isCasting = true;
+        castTimer.Start(time);
+        castDuration = time;
+    }
+
+    public float GetTimeLeft()
+    {
+        return (float)castTimer.TimeLeft;
+    }
+
+    public void castInerupted()
+    {
+        Hide();
+        isCasting = false;
+        castTimer.Stop();
+        progressBar.Value = 0;
+    }
+
+    public void _OnCastTimeTimeout()
+    {
+        Hide();
+        progressBar.Value = 100;
+        castTimer.Stop();
+        isCasting = false;
+
+        EmitSignal(SignalName.CastFinished);
+    }
 }

@@ -1,13 +1,17 @@
-[gd_scene load_steps=2 format=3 uid="uid://cjq6c54dx6fas"]
+[gd_scene load_steps=3 format=3 uid="uid://cjq6c54dx6fas"]
 
 [ext_resource type="Script" path="res://Components/Spells/SpellCastManager/SpellCastManagerComponent.cs" id="1_11ac5"]
+[ext_resource type="PackedScene" uid="uid://dm1w8v55i2hft" path="res://Components/CastBarComponent/CastBarComponent.tscn" id="2_3g6da"]
 
-[node name="SpellCastManagerComponent" type="Node2D" node_paths=PackedStringArray("globalCooldownTimer")]
+[node name="SpellCastManagerComponent" type="Node2D" node_paths=PackedStringArray("globalCooldownTimer", "castBarComponent")]
 script = ExtResource("1_11ac5")
 globalCooldownTimer = NodePath("GlobalCooldown")
+castBarComponent = NodePath("CastBarComponent")
 
 [node name="GlobalCooldown" type="Timer" parent="."]
 wait_time = 0.5
 one_shot = true
+
+[node name="CastBarComponent" parent="." instance=ExtResource("2_3g6da")]
 
 [connection signal="timeout" from="GlobalCooldown" to="." method="_OnGlobalCooldownTimeout"]

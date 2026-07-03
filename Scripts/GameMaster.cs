@@ -27,7 +27,8 @@ public partial class GameMaster : Node
     public static PlayerData loadedPlayerDataSlot2 = new PlayerData();
     public static PlayerData loadedPlayerDataSlot3 = new PlayerData();
 
-    public override void _Ready() {
+    public override void _Ready()
+    {
         GD.Print("Gamemaster Ready");
 
         //Populate Dictionaries
@@ -61,7 +62,8 @@ public partial class GameMaster : Node
     public static void DeleteGameData() { Delete(SaveTypes.gameDat, 1); }
 
 
-    private static void Save(SaveTypes mySaveType, int slotNum) {
+    private static void Save(SaveTypes mySaveType, int slotNum)
+    {
         //Don't save slot 0
         if (slotNum == 0) { return; }
 
@@ -73,10 +75,12 @@ public partial class GameMaster : Node
         string jsonString = string.Empty;
 
         //Convert entire class to json string.
-        if (mySaveType == SaveTypes.playerDat) {
+        if (mySaveType == SaveTypes.playerDat)
+        {
             jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(playerData);
         }
-        if (mySaveType == SaveTypes.gameDat) {
+        if (mySaveType == SaveTypes.gameDat)
+        {
             jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(gameData);
         }
 
@@ -86,12 +90,14 @@ public partial class GameMaster : Node
     }
 
 
-    private static void Load(SaveTypes mySaveType, int slotNum, bool loadToSlot = false) {
+    private static void Load(SaveTypes mySaveType, int slotNum, bool loadToSlot = false)
+    {
         string myFilePath = "user://" + mySaveType.ToString() + slotNum + ".sav";
 
         //Can't open file
-        if (FileAccess.FileExists(myFilePath) == false) {
-            GD.Print("File doesnt exist: " +  myFilePath);
+        if (FileAccess.FileExists(myFilePath) == false)
+        {
+            GD.Print("File doesnt exist: " + myFilePath);
             initializeSlot(mySaveType, slotNum);
             return;
         }
@@ -102,27 +108,34 @@ public partial class GameMaster : Node
         //Read File Contents. File is only one line, so it does not need to be iterated.
         var jsonString = saveGame.GetLine();
 
-        if (mySaveType == SaveTypes.playerDat) {
-            if (loadToSlot == false) {
+        if (mySaveType == SaveTypes.playerDat)
+        {
+            if (loadToSlot == false)
+            {
                 Newtonsoft.Json.JsonConvert.PopulateObject(jsonString, playerData);
-            } else {
+            }
+            else
+            {
                 if (slotNum == 1) { Newtonsoft.Json.JsonConvert.PopulateObject(jsonString, loadedPlayerDataSlot1); }
                 if (slotNum == 2) { Newtonsoft.Json.JsonConvert.PopulateObject(jsonString, loadedPlayerDataSlot2); }
                 if (slotNum == 3) { Newtonsoft.Json.JsonConvert.PopulateObject(jsonString, loadedPlayerDataSlot3); }
             }
         }
 
-        if (mySaveType == SaveTypes.gameDat) {
+        if (mySaveType == SaveTypes.gameDat)
+        {
             Newtonsoft.Json.JsonConvert.PopulateObject(jsonString, gameData);
         }
     }
 
 
-    private static void Delete(SaveTypes mySaveType, int slotNum) {
+    private static void Delete(SaveTypes mySaveType, int slotNum)
+    {
         string myFilePath = "user://" + mySaveType.ToString() + slotNum + ".sav";
 
         //Overwrite Player Data for Specified Slot
-        if (mySaveType == SaveTypes.playerDat) {
+        if (mySaveType == SaveTypes.playerDat)
+        {
             initializeSlot(SaveTypes.gameDat, slotNum);
         }
 
@@ -133,8 +146,10 @@ public partial class GameMaster : Node
         Save(mySaveType, slotNum);
     }
 
-    private static void initializeSlot(SaveTypes mySaveType, int slotNum) {
-        if (mySaveType == SaveTypes.playerDat) {
+    private static void initializeSlot(SaveTypes mySaveType, int slotNum)
+    {
+        if (mySaveType == SaveTypes.playerDat)
+        {
             if (slotNum == 0) { playerData = new PlayerData(); playerData.init(); }
             if (slotNum == 1) { loadedPlayerDataSlot1 = new PlayerData(); loadedPlayerDataSlot1.init(); SavePlayerData(slotNum); }
             if (slotNum == 2) { loadedPlayerDataSlot2 = new PlayerData(); loadedPlayerDataSlot2.init(); SavePlayerData(slotNum); }

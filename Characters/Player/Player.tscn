@@ -1,12 +1,13 @@
-[gd_scene load_steps=51 format=3 uid="uid://cd1iosk5d2fm0"]
+[gd_scene load_steps=52 format=3 uid="uid://cd1iosk5d2fm0"]
 
 [ext_resource type="Script" path="res://Characters/Player/Player.cs" id="1_m7g1q"]
 [ext_resource type="Texture2D" uid="uid://cpuif0efa5656" path="res://Assets/Sprites/Heroes/Basic/BasicPurpleBlack/b672a536-ec5b-42f5-aa62-4775f41ad7f5.png" id="2_0sf0v"]
 [ext_resource type="PackedScene" uid="uid://cccq4cn5qwvrc" path="res://Components/PlayerMovementComponent/PlayerMovementComponent.tscn" id="3_6vxlg"]
 [ext_resource type="PackedScene" uid="uid://xiop66rwfrek" path="res://Components/HealthComponent/HealthComponent.tscn" id="4_d6umo"]
-[ext_resource type="PackedScene" uid="uid://5j4w0j1entl1" path="res://Characters/QuantumMage/QuantumMage.tscn" id="6_653hu"]
+[ext_resource type="PackedScene" uid="uid://5j4w0j1entl1" path="res://Characters/Class/QuantumMage/QuantumMage.tscn" id="6_653hu"]
 [ext_resource type="PackedScene" uid="uid://c2nrqq0g2cyny" path="res://Components/Hurtbox/Hurtbox.tscn" id="6_xrngf"]
 [ext_resource type="PackedScene" uid="uid://cjq6c54dx6fas" path="res://Components/Spells/SpellCastManager/SpellCastManagerComponent.tscn" id="7_5uvj5"]
+[ext_resource type="PackedScene" uid="uid://sn5lrq0cdhig" path="res://Components/InputManager/InputManager.tscn" id="8_pucs2"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_62vod"]
 radius = 12.0
@@ -331,12 +332,13 @@ properties/0/path = NodePath(".:position")
 properties/0/spawn = true
 properties/0/replication_mode = 1
 
-[node name="Player" type="CharacterBody2D" groups=["Players"]]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("playerClass") groups=["Players"]]
 scale = Vector2(0.3, 0.3)
 collision_layer = 2
 collision_mask = 7
 floor_stop_on_slope = false
 script = ExtResource("1_m7g1q")
+playerClass = NodePath("QuantumMage")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(3, 6)
@@ -375,9 +377,6 @@ replication_config = SubResource("SceneReplicationConfig_msh4y")
 
 [node name="DashCooldownTimer" type="Timer" parent="."]
 
-[node name="QuantumMage" parent="." node_paths=PackedStringArray("spellCastManagerComponent") instance=ExtResource("6_653hu")]
-spellCastManagerComponent = NodePath("../SpellCastManagerComponent")
-
 [node name="SpellCastManagerComponent" parent="." node_paths=PackedStringArray("animatedSprite2D", "player") instance=ExtResource("7_5uvj5")]
 animatedSprite2D = NodePath("../AnimatedSprite2D")
 player = NodePath("..")
@@ -389,6 +388,10 @@ collision_mask = 64
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MechanicArea"]
 position = Vector2(3.33333, 0)
 shape = SubResource("CapsuleShape2D_61tp5")
+
+[node name="QuantumMage" parent="." instance=ExtResource("6_653hu")]
+
+[node name="InputManager" parent="." instance=ExtResource("8_pucs2")]
 
 [connection signal="timeout" from="DashTimer" to="." method="_OnDashTimeout"]
 [connection signal="timeout" from="DashCooldownTimer" to="." method="_OnDashCooldownTimeout"]

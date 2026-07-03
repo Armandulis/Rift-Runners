@@ -7,5 +7,6 @@ script = ExtResource("1_vas41")
 cooldownTimer = NodePath("CooldownTimer")
 
 [node name="CooldownTimer" type="Timer" parent="."]
+one_shot = true
 
 [connection signal="timeout" from="CooldownTimer" to="." method="OnCooldownTimerTimeout"]

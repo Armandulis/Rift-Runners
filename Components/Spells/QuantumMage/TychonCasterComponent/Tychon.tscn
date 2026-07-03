@@ -1,0 +1,111 @@
+[gd_scene load_steps=15 format=3 uid="uid://cn3kt1a2ty6g2"]
+
+[ext_resource type="Script" path="res://Components/Spells/QuantumMage/TychonCasterComponent/Tychon.cs" id="1_s7fwa"]
+[ext_resource type="PackedScene" uid="uid://dn322naumwovf" path="res://Components/ImpactDetector/ImpactDetector.tscn" id="2_dtx23"]
+[ext_resource type="PackedScene" uid="uid://beuryv8j26jih" path="res://Components/Hitbox/Hitbox.tscn" id="3_4baqw"]
+[ext_resource type="Texture2D" uid="uid://cb8v00j5dm8gk" path="res://Assets/Sprites/Spells/QuantumMage/Tychon.png" id="4_erssq"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_34hd6"]
+radius = 20.0
+height = 74.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_khtgv"]
+radius = 20.0
+height = 74.0
+
+[sub_resource type="Animation" id="Animation_xlbai"]
+resource_name = "Cast"
+length = 0.25
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.233333),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ci8f4"]
+_data = {
+"Cast": SubResource("Animation_xlbai")
+}
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_51iq0"]
+atlas = ExtResource("4_erssq")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sghq5"]
+atlas = ExtResource("4_erssq")
+region = Rect2(64, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dgx4i"]
+atlas = ExtResource("4_erssq")
+region = Rect2(128, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qdyp2"]
+atlas = ExtResource("4_erssq")
+region = Rect2(192, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_41wn4"]
+atlas = ExtResource("4_erssq")
+region = Rect2(256, 64, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bx25n"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_51iq0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sghq5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dgx4i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qdyp2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_41wn4")
+}],
+"loop": true,
+"name": &"Cast",
+"speed": 16.0
+}]
+
+[node name="Tychon" type="Node2D"]
+script = ExtResource("1_s7fwa")
+
+[node name="ImpactDetector" parent="." instance=ExtResource("2_dtx23")]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" parent="ImpactDetector" index="0"]
+shape = SubResource("CapsuleShape2D_34hd6")
+
+[node name="Hitbox" parent="." instance=ExtResource("3_4baqw")]
+collision_layer = 8
+
+[node name="CollisionShape2D" parent="Hitbox" index="0"]
+shape = SubResource("CapsuleShape2D_khtgv")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_ci8f4")
+}
+autoplay = "Cast"
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_bx25n")
+animation = &"Cast"
+autoplay = "Cast"
+frame_progress = 0.103506
+
+[editable path="ImpactDetector"]
+[editable path="Hitbox"]

@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://bskt53i6hu6km"]
+
+[ext_resource type="Script" path="res://Components/Spells/QuantumMage/TimeDilationCasterComponent/TimeDilationCasterComponent.cs" id="1_6m4tg"]
+
+[node name="TimeDilationCasterComponent" type="Node2D" node_paths=PackedStringArray("cooldownTimer")]
+script = ExtResource("1_6m4tg")
+cooldownTimer = NodePath("CooldownTimer")
+
+[node name="CooldownTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="CooldownTimer" to="." method="_OnCooldownTimerTimeout"]

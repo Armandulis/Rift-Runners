@@ -184,8 +184,6 @@ shape = SubResource("CapsuleShape2D_ualew")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_1umm7")
 animation = &"damaged"
-frame = 4
-frame_progress = 1.0
 
 [editable path="Hurtbox"]
 [editable path="HealthComponent"]

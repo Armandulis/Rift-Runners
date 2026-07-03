@@ -5,38 +5,38 @@ using System.Linq;
 
 public partial class Hurtbox : Area2D
 {
-	private Dictionary<string, SpellMetadata> dots = new Dictionary<string, SpellMetadata>();
-	private Dictionary<SpellMetadata, double> dotRemainingTimes = new Dictionary<SpellMetadata, double>();
+    private Dictionary<string, SpellMetadata> dots = new Dictionary<string, SpellMetadata>();
+    private Dictionary<SpellMetadata, double> dotRemainingTimes = new Dictionary<SpellMetadata, double>();
 
 
-	
-	private double timer = 0;
-	
-	[Export]
-	public HealthComponent healthComponent;
 
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
-	{
-	}
+    private double timer = 0;
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
-		timer += delta;
+    [Export]
+    public HealthComponent healthComponent;
 
-		foreach( KeyValuePair<string, SpellMetadata> entry in dots.ToList() )
-		{
-			SpellMetadata dot = entry.Value;
+    // Called when the node enters the scene tree for the first time.
+    public override void _Ready()
+    {
+    }
 
-			if (!dotRemainingTimes.ContainsKey(dot))
+    // Called every frame. 'delta' is the elapsed time since the previous frame.
+    public override void _Process(double delta)
+    {
+        timer += delta;
+
+        foreach (KeyValuePair<string, SpellMetadata> entry in dots.ToList())
+        {
+            SpellMetadata dot = entry.Value;
+
+            if (!dotRemainingTimes.ContainsKey(dot))
             {
                 // Start the timer for this dot
                 dotRemainingTimes[dot] = dot.dotInterval;
             }
-			  dotRemainingTimes[dot] -= delta;
+            dotRemainingTimes[dot] -= delta;
 
- 			if (dotRemainingTimes[dot] <= 0)
+            if (dotRemainingTimes[dot] <= 0)
             {
                 healthComponent.Damage(dot);
 
@@ -52,32 +52,32 @@ public partial class Hurtbox : Area2D
                     dots.Remove(entry.Key);
                 }
             }
-		}
-	}
-	
-	public void OnHurtboxAreaEntered(Hitbox hitbox)
-	{	
-		if(hitbox == null)
-		{
-			return;
-		}
+        }
+    }
 
-		if(hitbox.spellMetadata.isDot)
-		{
-			dots[hitbox.spellMetadata.id] = hitbox.spellMetadata;
-		}
+    public void OnHurtboxAreaEntered(Hitbox hitbox)
+    {
+        if (hitbox == null)
+        {
+            return;
+        }
 
-		healthComponent.Damage( hitbox.spellMetadata );
-	}
+        if (hitbox.spellMetadata.isDot)
+        {
+            dots[hitbox.spellMetadata.id] = hitbox.spellMetadata;
+        }
 
-	public void OnHurtboxAreaExited(Hitbox hitbox)
-	{	
-		if(hitbox == null || !hitbox.spellMetadata.isAOEDot )
-		{
-			return;
-		}
+        healthComponent.Damage(hitbox.spellMetadata);
+    }
 
-		dots.Remove(hitbox.spellMetadata.id);
-		dotRemainingTimes.Remove(hitbox.spellMetadata);
-	}
+    public void OnHurtboxAreaExited(Hitbox hitbox)
+    {
+        if (hitbox == null || !hitbox.spellMetadata.isAOEDot)
+        {
+            return;
+        }
+
+        dots.Remove(hitbox.spellMetadata.id);
+        dotRemainingTimes.Remove(hitbox.spellMetadata);
+    }
 }

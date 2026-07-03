@@ -12,15 +12,15 @@ public partial class SpellMetadataCollection : GodotObject
 
     internal void AddSpell(SpellMetadata spellMetadata)
     {
-        if(!spellsCollection.ContainsKey( spellMetadata.spellId ) )
+        if (!spellsCollection.ContainsKey(spellMetadata.spellId))
         {
-            List<SpellMetadata> spells = new List<SpellMetadata>(); 
+            List<SpellMetadata> spells = new List<SpellMetadata>();
             spells.Add(spellMetadata);
-            spellsCollection.Add(spellMetadata.spellId, spells );
+            spellsCollection.Add(spellMetadata.spellId, spells);
         }
         else
         {
-            spellsCollection[spellMetadata.spellId].Add( spellMetadata );
+            spellsCollection[spellMetadata.spellId].Add(spellMetadata);
         }
     }
 }

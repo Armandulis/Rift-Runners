@@ -3,7 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 
-public enum SceneNamesEnum{
+public enum SceneNamesEnum
+{
     MultiplayerController = 0,
     World = 20
 }
@@ -17,15 +18,16 @@ public partial class SceneManager : Node2D
         { SceneNamesEnum.World, new SceneData( "res://Scenes/World.tscn", "World", false ) },
     };
 
-    public override void _Ready() {
+    public override void _Ready()
+    {
         instance = this;
     }
 
-    public void ChangeScene(SceneNamesEnum sceneName )
+    public void ChangeScene(SceneNamesEnum sceneName)
     {
         string scenePath = sceneDictionary[sceneName].path;
         GameMaster.pauseAllowed = sceneDictionary[sceneName].pauseAllowed;
 
-        GetTree().ChangeSceneToFile( scenePath );
+        GetTree().ChangeSceneToFile(scenePath);
     }
 }
